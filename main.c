@@ -14,9 +14,12 @@ int read_cmd(){
     char cwd[256];
     char a[50];
     char ext[] = "exit";
+    int counter;
     do{
+        counter = 0;
         SetColor(10);
         printf("Simple Bash Shell In C:\n");
+        //printf(current_dir());
         SetColor(15);
         printf("$ ");
         gets(a);
@@ -26,12 +29,24 @@ int read_cmd(){
             display_commands();
         }else if(strcmp("cls",a) == 0){
             clear_screen();
+        }else if(strcmp("change_dir",a) == 0){
+            change_dir();
+        }else if(strcmp("exit",a) == 0){
+            counter = 1;
         }else{
             SetColor(4);
             printf("error - This command didn't match.Enter 'cmds' for help.\n");
         }
-    }while(strcmp(ext,a)!=0);
+    }while(counter == 0);
     return 0;
+}
+void change_dir(){
+    char dir[50];
+    printf("enter directory:");
+    gets(dir);
+    chdir(dir);
+    puts(current_dir());
+    return;
 }
 void display_commands(){
     printf("\nAll commands\n");
@@ -44,13 +59,15 @@ void display_commands(){
 void current_dir(){
     char cwd[256];
     if(getcwd(cwd, sizeof(cwd)) == NULL){
-            printf("error");
+            perror("getcwd() error");
     }else{
-            printf("current directory:%s\n",cwd);
+            puts(cwd);
     }
+    //return;
 }
 void clear_screen(){
     system("cls");
+    return;
 }
 void SetColor(int ForgC)
 {
