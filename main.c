@@ -25,6 +25,8 @@ int read_cmd(){
         gets(a);
         if(strcmp("cd",a) == 0){
             current_dir();
+        }else if(strcmp("make_dir",a) == 0){
+            make_dir();
         }else if(strcmp("cmds",a) == 0){
             display_commands();
         }else if(strcmp("cls",a) == 0){
@@ -39,6 +41,18 @@ int read_cmd(){
         }
     }while(counter == 0);
     return 0;
+}
+void make_dir(){
+    char dir[50];
+    int check;
+    printf("Enter directory name:");
+    gets(dir);
+    check = mkdir(dir);
+    if(!check){
+        printf("Directory Created\n");
+    }else{
+        printf("Unable To Create Directory\n");
+    }
 }
 void change_dir(){
     char dir[50];
@@ -55,6 +69,8 @@ void display_commands(){
     printf("mkdir <dir name> - make directory with <dir name>.\n");
     printf("cls - clear screen.\n");
     printf("cmds - display all commands.\n\n");
+    printf("change_dir - command to change current directory.\n\n");
+    printf("make_dir - make directory on current path directory.\n\n");
 }
 void current_dir(){
     char cwd[256];
